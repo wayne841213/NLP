@@ -50,11 +50,11 @@ set_session(tf.Session(config=config))
 
 pretrained_path  = "./xlnet_cased_L-12_H-768_A-12"
 
-EPOCH = 10
+EPOCH = 100
 
-BATCH_SIZE = 1
+BATCH_SIZE = 2
 
-SEQ_LEN = 256
+SEQ_LEN = 128
 
 PretrainedPaths = namedtuple('PretrainedPaths', ['config', 'model', 'vocab'])
 
@@ -182,7 +182,7 @@ model.summary()
 
 model.compile(
 
-    optimizer=RAdam(learning_rate=1e-4),
+    optimizer=RAdam(learning_rate=1e-3),
 
     loss='sparse_categorical_crossentropy',
 
@@ -194,7 +194,7 @@ model.compile(
 
 from keras.callbacks import ModelCheckpoint
 
-checkpoint = ModelCheckpoint("./model/best_xlnet.h5", monitor='val_sparse_categorical_accuracy', verbose=1, save_best_only=True,
+checkpoint = ModelCheckpoint("weights.{epoch:02d}-{val_loss:.2f}.hdf5", monitor='val_sparse_categorical_accuracy', verbose=1, save_best_only=True,
 
                             mode='max')
 
